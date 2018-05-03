@@ -1,4 +1,4 @@
-/* ДЗ 2 - работа с массивами и объеектами */
+/* ДЗ 2 - работа с массивами и объеяектами */
 
 /*
  Задание 1:
@@ -7,6 +7,9 @@
  Посмотрите как работает forEach и повторите это поведение для массива, который будет передан в параметре array
  */
 function forEach(array, fn) {
+    for (let i = 0; i < array.length; i++) {
+        fn(array[i], i, array);
+    }
 }
 
 /*
@@ -16,6 +19,12 @@ function forEach(array, fn) {
  Посмотрите как работает map и повторите это поведение для массива, который будет передан в параметре array
  */
 function map(array, fn) {
+    let newArr = [];
+    for (let i = 0; i < array.length; i++) {
+        newArr.push(fn(array[i], i, array));
+    }
+
+    return newArr;
 }
 
 /*
@@ -24,7 +33,13 @@ function map(array, fn) {
  Напишите аналог встроенного метода reduce для работы с массивами
  Посмотрите как работает reduce и повторите это поведение для массива, который будет передан в параметре array
  */
-function reduce(array, fn, initial) {
+function reduce(array, fn, initial=array[0]) {
+    var mediate = initial;
+    for (let i = 0; i < array.length; i++) {
+        mediate = fn(mediate, array[i], i, array);
+    }
+
+    return mediate;
 }
 
 /*
@@ -36,6 +51,9 @@ function reduce(array, fn, initial) {
    upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
  */
 function upperProps(obj) {
+    var arr = Object.getOwnPropertyNames(obj);
+
+    return arr.map(el => {return el.toUpperCase()});
 }
 
 /*
@@ -45,6 +63,18 @@ function upperProps(obj) {
  Посмотрите как работает slice и повторите это поведение для массива, который будет передан в параметре array
  */
 function slice(array, from, to) {
+    var newArr = [];
+    if (from == 0 && to == undefined) {
+        return array;
+    }
+
+    for (let i = 0; i < array.length; i++) {
+        if (i >= from && i < to) {
+            newArr.push(array[i]);
+        }
+    }
+
+    return newArr;
 }
 
 /*
