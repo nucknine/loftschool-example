@@ -56,8 +56,7 @@ function returnFnResult(fn) {
    var f = returnCounter(10);
 
    console.log(f()); // выведет 11
-   console.log(f()); // выведет 12
-   console.log(f()); // выведет 13
+   console.log(f()); // выведет 12   
  */
 function returnCounter(number=0) {
     return function() {
