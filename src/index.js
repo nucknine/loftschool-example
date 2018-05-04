@@ -68,6 +68,14 @@ function slice(array, from, to) {
         return array;
     }
 
+    if (from < 0) {
+        from = array.length - from;
+    }
+
+    if (to < 0) {
+        to = array.length - to;
+    }
+
     for (let i = 0; i < array.length; i++) {
         if (i >= from && i < to) {
             newArr.push(array[i]);
