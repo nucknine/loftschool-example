@@ -36,14 +36,14 @@ function map(array, fn) {
  */
 function reduce(array, fn, initial) {
 
-    let start = 0,
+    let i = 0,
         mediate = initial || array[0];
 
     if (!initial) {
-        start = 1;
+        i = 1;
     }
 
-    for (let i = start; i < array.length; i++) {
+    for (i; i < array.length; i++) {
         mediate = fn(mediate, array[i], i, array);
     }
 
