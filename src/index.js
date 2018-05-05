@@ -123,6 +123,57 @@ function returnBadArguments(fn) {
    - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
 function calculator() {
+    let number = arguments[0] || 0;
+
+    if (!isFinite(number)) {
+        throw new Error('number is not a number');
+    }
+
+    let calc = {
+        sum: function() {            
+            let [...args] = arguments;
+
+            for (let i = 0; i < args.length; i++) {
+                number += args[i];
+            }
+
+            return number;
+        },
+        dif: function() {
+            let [...args] = arguments;
+
+            for (let i = 0; i < args.length; i++) {
+                number -= args[i];
+            }
+
+            return number;
+        },
+        div: function() {
+            let [...args] = arguments;
+
+            for (let i = 0; i < args.length; i++) {
+                if (args[i] == 0) {
+                    throw new Error('division by 0');
+                }
+                number /= args[i];
+            }
+
+            return number;
+
+        },
+        mul: function() {
+            let [...args] = arguments;
+
+            for (let i = 0; i < args.length; i++) {
+                number *= args[i];
+            }
+
+            return number;
+
+        }
+    };
+
+    return calc;
 }
 
 /* При решении задач, пострайтесь использовать отладчик */
