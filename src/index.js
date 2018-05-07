@@ -27,11 +27,11 @@ function isAllTrue(array, fn) {
     }
     for (let i = 0; i < array.length; i++) {
         if (fn(array[i], i, array) == false) {
-          
+
             return false;
         }
     }
-    
+
     return true;
 }
 
@@ -60,7 +60,7 @@ function isSomeTrue(array, fn) {
     }
     for (let i = 0; i < array.length; i++) {
         if (fn(array[i], i, array) == true) {
-      
+
             return true;
         }
     }
@@ -89,8 +89,8 @@ function returnBadArguments(fn) {
 
     if (array.length == 0) {
         return array;
-    }      
-         
+    }
+
     for (let i = 0; i < array.length; i++) {
         try {
             if (fn(array[i])) {
@@ -99,7 +99,7 @@ function returnBadArguments(fn) {
         } catch (e) {
             result.push(array[i]);
         }
-        
+
     }
 
     return result;
@@ -130,8 +130,7 @@ function calculator() {
     }
 
     let calc = {
-        sum: function() {            
-            let [...args] = arguments;
+        sum(...args) {
 
             for (let i = 0; i < args.length; i++) {
                 number += args[i];
@@ -139,8 +138,7 @@ function calculator() {
 
             return number;
         },
-        dif: function() {
-            let [...args] = arguments;
+        dif(...args) {
 
             for (let i = 0; i < args.length; i++) {
                 number -= args[i];
@@ -148,11 +146,10 @@ function calculator() {
 
             return number;
         },
-        div: function() {
-            let [...args] = arguments;
+        div(...args) {
 
             for (let i = 0; i < args.length; i++) {
-                if (args[i] == 0) {
+                if (args[i] === 0) {
                     throw new Error('division by 0');
                 }
                 number /= args[i];
@@ -161,8 +158,7 @@ function calculator() {
             return number;
 
         },
-        mul: function() {
-            let [...args] = arguments;
+        mul(...args) {
 
             for (let i = 0; i < args.length; i++) {
                 number *= args[i];
