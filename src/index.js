@@ -79,9 +79,8 @@ function isSomeTrue(array, fn) {
  3.3: Необходимо выбрасывать исключение в случаях:
    - fn не является функцией (с текстом "fn is not a function")
  */
-function returnBadArguments(fn) {
-    let [, ...array] = arguments,
-        result = [];
+function returnBadArguments(fn, ...array) {
+    let result = [];
 
     if (typeof fn !== 'function') {
         throw new Error('fn is not a function');
@@ -93,9 +92,7 @@ function returnBadArguments(fn) {
 
     for (let i = 0; i < array.length; i++) {
         try {
-            if (fn(array[i])) {
-                throw new Error();
-            }
+            fn(array[i]);
         } catch (e) {
             result.push(array[i]);
         }
@@ -129,7 +126,7 @@ function calculator() {
         throw new Error('number is not a number');
     }
 
-    let calc = {
+    return {
         sum(...args) {
 
             for (let i = 0; i < args.length; i++) {
@@ -168,8 +165,6 @@ function calculator() {
 
         }
     };
-
-    return calc;
 }
 
 /* При решении задач, пострайтесь использовать отладчик */
