@@ -106,8 +106,10 @@ function findError(where) {
    После выполнения функции, дерево <div></div>привет<p></p>loftchool!!!
    должно быть преобразовано в <div></div><p></p>
  */
-function deleteTextNodes(where) {    
-    for (let nodes = where.childNodes, i = nodes.length; i--;) {
+function deleteTextNodes(where) {
+    let nodes = where.childNodes;
+
+    for (let i = 0; i < nodes.length; i++) {
         if (nodes[i].nodeType == 3) {
             where.removeChild(nodes[i]);
         }
@@ -127,6 +129,28 @@ function deleteTextNodes(where) {
    должно быть преобразовано в <span><div><b></b></div><p></p></span>
  */
 function deleteTextNodesRecursive(where) {
+    let nodes = where.childNodes;
+
+    for (let i = 0; i < nodes.length; i++) {
+        if (nodes[i].nodeType == 3) {
+            where.removeChild(nodes[i]);
+        } else if (nodes[i].nodeType == 1) {
+            deleteTextNodesRecursive(nodes[i]);
+        }
+    }
+
+/*
+    if (where.nodeType == 3) {
+        var parent = where.parentNode;
+
+        parent.removeChild(where);
+    }
+    if (where.nodeType == 1) {
+        for (var i = 0; i < where.childNodes.length; i++) {
+            deleteTextNodesRecursive(where.childNodes[i]);
+        }
+    }    
+    */
 }
 
 /*
