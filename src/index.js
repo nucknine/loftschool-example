@@ -30,6 +30,9 @@ function createDivWithText(text) {
    prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым аргументом в начало элемента переданного вторым аргументом
  */
 function prepend(what, where) {
+    const first = where.firstChild;
+
+    where.insertBefore(what, first);
 }
 
 /*
@@ -52,6 +55,16 @@ function prepend(what, where) {
    findAllPSiblings(document.body) // функция должна вернуть массив с элементами div и span т.к. следующим соседом этих элементов является элемент с тегом P
  */
 function findAllPSiblings(where) {
+    const elements = where.children;
+    let resultArr = [];
+
+    for (let i = 0; i < elements.length - 1; i++) {
+        if (elements[i].nextElementSibling.nodeName == 'P') {
+            resultArr.push(elements[i]);
+        }
+    }
+
+    return resultArr;
 }
 
 /*
@@ -74,7 +87,7 @@ function findAllPSiblings(where) {
 function findError(where) {
     var result = [];
 
-    for (var child of where.childNodes) {
+    for (var child of where.children) {
         result.push(child.innerText);
     }
 
