@@ -134,22 +134,23 @@ function deleteTextNodesRecursive(where) {
     for (let i = 0; i < nodes.length; i++) {
         if (nodes[i].nodeType == 3) {
             where.removeChild(nodes[i]);
-        } else if (nodes[i].nodeType == 1) {
+        } 
+        
+        if (nodes[i] !== undefined) {
             deleteTextNodesRecursive(nodes[i]);
         }
     }
 
 /*
-    if (where.nodeType == 3) {
-        var parent = where.parentNode;
-
-        parent.removeChild(where);
-    }
-    if (where.nodeType == 1) {
-        for (var i = 0; i < where.childNodes.length; i++) {
-            deleteTextNodesRecursive(where.childNodes[i]);
-        }
-    }    
+    for (var i = 0; i < where.childNodes.length; i++) {
+            if (where.childNodes[i].nodeType == 3) {
+                where.removeChild(where.childNodes[i]);
+            }
+        
+            if (where.childNodes[i] !== undefined) {
+                deleteTextNodesRecursive (where.childNodes[i]);
+            }
+        }   
     */
 }
 
