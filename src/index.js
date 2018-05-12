@@ -9,6 +9,11 @@
    addListener('click', document.querySelector('a'), () => console.log('...')) // должна добавить указанный обработчик кликов на указанный элемент
  */
 function addListener(eventName, target, fn) {
+    if (target.addEventListener) {
+        target.addEventListener(eventName, fn, false);
+    } else {
+        target.attachEvent('on' + eventName, fn);
+    }
 }
 
 /*
@@ -20,6 +25,11 @@ function addListener(eventName, target, fn) {
    removeListener('click', document.querySelector('a'), someHandler) // должна удалить указанный обработчик кликов на указанный элемент
  */
 function removeListener(eventName, target, fn) {
+    if (target.removeEventListener) {
+        target.removeEventListener(eventName, fn, false);
+    } else {
+        target.detachEvent('on' + eventName, fn);
+    }
 }
 
 /*
@@ -31,6 +41,14 @@ function removeListener(eventName, target, fn) {
    skipDefault('click', document.querySelector('a')) // после вызова функции, клики на указанную ссылку не должны приводить к переходу на другую страницу
  */
 function skipDefault(eventName, target) {
+    target.addEventListener(eventName, function(e) {
+        try {
+            e.preventDefault();
+        } catch (x) {
+            e.returnValue = false;
+        }
+    });
+    
 }
 
 /*
@@ -42,6 +60,10 @@ function skipDefault(eventName, target) {
    emulateClick(document.querySelector('a')) // для указанного элемента должно быть сэмулировано события click
  */
 function emulateClick(target) {
+
+    const event = new Event('click');
+
+    target.dispatchEvent(event);    
 }
 
 /*
@@ -54,6 +76,15 @@ function emulateClick(target) {
    delegate(document.body, () => console.log('кликнули на button')) // добавит такой обработчик кликов для body, который будет вызывать указанную функцию только если кликнули на кнопку (элемент с тегом button)
  */
 function delegate(target, fn) {
+    target.addEventListener('click', function(e) {
+
+        const target = e.target; 
+
+        if (target.tagName != 'BUTTON') {
+            return;
+        }
+        fn();         
+    });
 }
 
 /*
@@ -66,6 +97,12 @@ function delegate(target, fn) {
    once(document.querySelector('button'), () => console.log('обработчик выполнился!')) // добавит такой обработчик кликов для указанного элемента, который вызовется только один раз и затем удалится
  */
 function once(target, fn) {
+    target.addEventListener('click', foo);
+
+    function foo() {
+        fn();
+        this.removeEventListener('click', foo);
+    }
 }
 
 export {
