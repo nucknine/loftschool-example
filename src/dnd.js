@@ -29,22 +29,27 @@ const homeworkContainer = document.querySelector('#homework-container');
 function createDiv() {
     const div = document.createElement('div'),
         letters = '0123456789ABCDEF',
-        windowH = document.body.offsetHeight,
-        windowW = document.body.offsetWidth,
-        width = Math.random() * Math.floor(windowW),
-        height = Math.random() * Math.floor(windowH);
-    
+        windowH = window.innerHeight,
+        windowW = window.innerWidth,
+        width = Math.floor(Math.random() * windowW),
+        height = Math.floor(Math.random() * windowH);
+        
     let color = '#';
 
-    for (var i = 0; i < 6; i++) {
+    for (let i = 0; i < 6; i++) {
         color += letters[Math.floor(Math.random() * 16)];
     }
 
-    var x = windowH - div.clientHeight;
-    var y = windowW - div.clientWidth;
+    const y = windowH - height;
+    const x = windowW - width;
 
-    var randomX = Math.floor(Math.random()*x);
-    var randomY = Math.floor(Math.random()*y);
+    const randomX = Math.floor(Math.random()*x);
+    const randomY = Math.floor(Math.random()*y);
+
+    // console.log('h = ' + windowH + ' w = ' + windowW + 
+    // '\n' + 'randY = ' + randomY + ' randX = ' + randomX +
+    // '\n' + 'cH = ' + height + ' cW = ' + width +
+    // '\n' + 'y = ' + y + ' x = ' + x);
 
     div.setAttribute('style', 'position:absolute;');
     div.style.top = randomX + 'px';
@@ -54,6 +59,8 @@ function createDiv() {
 
     div.style.width = width + 'px';
     div.style.height = height + 'px';
+
+    div.classList.add('draggable-div');
 
     return div;
 }
@@ -67,6 +74,40 @@ function createDiv() {
    addListeners(newDiv);
  */
 function addListeners(target) {
+    target.addEventListener('mousedown', dragDrop, false);
+}
+
+/*
+drag n drop function
+*/
+
+function dragDrop (e) {
+    e = e || event;    
+    var target = e.target;
+    
+    target.style.zIndex = 999; 
+    
+    document.addEventListener('mousemove', mouseMove, false);
+    document.addEventListener('mouseup', mouseUp, false);
+    
+    function mouseMove (e) {
+        e = e || event;
+
+        if (e.pageX > target.offsetWidth / 2) {
+            target.style.left = e.clientX - target.offsetWidth/2 + 'px';
+            target.style.top = e.clientY - target.offsetHeight/2 + 'px';
+        } else { 
+            target.style.left = 0 + 'px'; 
+        }
+    }
+    
+    function mouseUp (e) {
+        e = e || event;
+        document.removeEventListener('mousemove', mouseMove, false);
+        document.removeEventListener('mouseup', mouseUp, false);
+    
+    }
+    
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
