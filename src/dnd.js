@@ -103,9 +103,9 @@ function dragDrop (e) {
     
     function mouseUp (e) {
         e = e || event;
+
         document.removeEventListener('mousemove', mouseMove, false);
-        document.removeEventListener('mouseup', mouseUp, false);
-    
+        document.removeEventListener('mouseup', mouseUp, false);    
     }
     
 }
