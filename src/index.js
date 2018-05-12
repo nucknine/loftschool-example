@@ -140,18 +140,6 @@ function deleteTextNodesRecursive(where) {
             deleteTextNodesRecursive(nodes[i]);
         }
     }
-
-/*
-    for (var i = 0; i < where.childNodes.length; i++) {
-            if (where.childNodes[i].nodeType == 3) {
-                where.removeChild(where.childNodes[i]);
-            }
-        
-            if (where.childNodes[i] !== undefined) {
-                deleteTextNodesRecursive (where.childNodes[i]);
-            }
-        }   
-    */
 }
 
 /*
