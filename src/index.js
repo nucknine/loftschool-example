@@ -211,9 +211,8 @@ function collectDOMStat(root) {
                     }
                 }
                 
-            }
-
-            collectDOMStat(nodes[i]);
+                collectDOMStat(nodes[i]);
+            }            
         }
     }
 
