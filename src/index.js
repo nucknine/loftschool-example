@@ -9,6 +9,9 @@
    delayPromise(3) // вернет promise, который будет разрешен через 3 секунды
  */
 function delayPromise(seconds) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, seconds*1000);
+    });
 }
 
 /*
@@ -24,8 +27,69 @@ function delayPromise(seconds) {
  Пример:
    loadAndSortTowns().then(towns => console.log(towns)) // должна вывести в консоль отсортированный массив городов
  */
+
 function loadAndSortTowns() {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('GET', 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
+        xhr.responseType = 'json';
+        xhr.send();
+        xhr.addEventListener('load', () => {
+            if (xhr.status != 200) {
+                reject();
+            } else {
+                let towns = xhr.response.sort(function(a, b) {
+                    var nameA = a.name.toUpperCase();
+                    var nameB = b.name.toUpperCase();
+    
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                  
+                    return 0;
+                });
+
+                resolve(towns);
+            }
+        });
+    });
 }
+    
+/*
+function loadAndSortTowns() {
+    fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json')
+        .then(response => {
+            if (response.status != 200) {
+                return Promise.reject();
+            }
+            
+            return response.json();
+        }).then(towns => {
+
+            towns.sort(function(a, b) {
+                var nameA = a.name.toUpperCase();
+                var nameB = b.name.toUpperCase();
+
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+              
+                return 0;
+            });
+
+            return towns;
+        })
+        .catch(() => console.error('Error'));
+    
+}
+*/
 
 export {
     delayPromise,
