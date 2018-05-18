@@ -109,17 +109,26 @@ const filterResult = homeworkContainer.querySelector('#filter-result');
 
 loadTowns().then((towns) => {
     loadingBlock.style.display = 'none';
-    filterBlock.style.display = 'block'; 
+    filterBlock.style.display = 'block';
 
     // это обработчик нажатия кливиш в текстовом поле
     filterInput.addEventListener('keyup', function() {
+        let resultArr = [];
+
+        filterResult.textContent = '';
+
         const chunk = filterInput.value;
 
         for (let town of towns) {
             if (isMatching(town.name, chunk)) {
-                filterResult.textContent = town.name;
+                resultArr.push(town.name);                
             }
         }
+
+        for (let town of resultArr) {
+            filterResult.innerHTML += `<p>${town}</p>`;
+        }
+        
     });
 });
 
