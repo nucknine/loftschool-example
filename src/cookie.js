@@ -45,6 +45,31 @@ const listTable = homeworkContainer.querySelector('#list-table tbody');
 
 filterNameInput.addEventListener('keyup', function() {
     // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
+    let result = {};
+    let cookies = getCookies();
+
+    listTable.innerHTML = '';
+
+    const chunk = filterNameInput.value;
+
+    for (let cookie in cookies) {
+        if (cookie) {            
+            if (isMatching(cookie+cookies[cookie], chunk)) {
+                result[cookie] = cookies[cookie];
+            }
+        }
+    }
+    
+    for (let cookie in result) {
+        if (cookie) {
+
+            listTable.innerHTML += `<tr>
+                                    <td>${cookie}</td>
+                                    <td>${result[cookie]}</td>
+                                    <td><a href="${cookie}">удалить</a></td>
+                                </tr>`;
+        }
+    }
 });
 
 updateTable();
@@ -57,15 +82,25 @@ addButton.addEventListener('click', () => {
     updateTable();
 });
 
-function updateTable() {
-    let table = '';    
-    let cookies = document.cookie.split('; ').reduce((prev, current) => {
-        let [name, value] = current.split('=');
+listTable.addEventListener('click', (e) => {
+    e.preventDefault();
+     
+    if (e.target.tagName == 'A') {        
+        deleteCookie(e.target);
+        updateTable();
+    }
+});
 
-        prev[name] = value;
-        
-        return prev;
-    }, {});
+filterNameInput.addEventListener('focusout', function() {
+    
+    if (filterNameInput.value == '') {
+        updateTable();
+    }
+});
+
+function updateTable() {
+    let table = '';       
+    let cookies = getCookies();
 
     for (let cookie in cookies) {
         if (cookie) {
@@ -81,17 +116,38 @@ function updateTable() {
 }
 
 function deleteCookie(target) {
-    let cookieName = target.getAttribute("href");
+    let cookieName = target.getAttribute('href');
     
-    document.cookie = `${cookieName} + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'`;
-
+    document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 }
 
-listTable.addEventListener('click', (e) => {
-    e.preventDefault();
-     
-    if (e.target.tagName == 'A') {        
-        deleteCookie(e.target);
-        updateTable();
+function isMatching(full, chunk) {
+    let cLen = chunk.length,
+        fLen = full.length,
+        result;
+
+    full = full.toUpperCase();
+    chunk = chunk.toUpperCase();
+
+    for (let i = 0; i < fLen; i++) {    
+        if (full[i] == chunk[0]) {            
+            result = full.substring(i, i + cLen); 
+            if (result == chunk) {
+                return true;
+            }
+        }    
     }
-});
+        
+    return false;   
+}
+
+function getCookies() {
+    return document.cookie.split('; ').reduce((prev, current) => {
+
+        let [name, value] = current.split('=');
+    
+        prev[name] = value;
+        
+        return prev;
+    }, {});
+}
