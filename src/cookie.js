@@ -44,32 +44,13 @@ const addButton = homeworkContainer.querySelector('#add-button');
 const listTable = homeworkContainer.querySelector('#list-table tbody');
 
 filterNameInput.addEventListener('keyup', function() {
-    // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
-    let result = {};
-    let cookies = getCookies();
-
-    listTable.innerHTML = '';
-
-    const chunk = filterNameInput.value;
-
-    for (let cookie in cookies) {
-        if (cookie) {            
-            if (isMatching(cookie+cookies[cookie], chunk)) {
-                result[cookie] = cookies[cookie];
-            }
-        }
+    // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie    
+    if (filterNameInput.value == '') {
+        updateTable();
+    } else {
+        filterTable();
     }
     
-    for (let cookie in result) {
-        if (cookie) {
-
-            listTable.innerHTML += `<tr>
-                                    <td>${cookie}</td>
-                                    <td>${result[cookie]}</td>
-                                    <td><a href="${cookie}">удалить</a></td>
-                                </tr>`;
-        }
-    }
 });
 
 updateTable();
@@ -77,9 +58,11 @@ updateTable();
 addButton.addEventListener('click', () => {
     // здесь можно обработать нажатие на кнопку "добавить cookie"
     document.cookie = `${addNameInput.value}=${addValueInput.value}`;
-    // addNameInput.value = '';
-    // addValueInput.value = '';
-    updateTable();
+    if (filterNameInput.value == '') {
+        updateTable();
+    } else {
+        filterTable();
+    }    
 });
 
 listTable.addEventListener('click', (e) => {
@@ -87,13 +70,6 @@ listTable.addEventListener('click', (e) => {
     
     if (e.target.tagName == 'BUTTON') {        
         deleteCookie(e.target);
-        updateTable();
-    }
-});
-
-filterNameInput.addEventListener('focusout', function() {
-    
-    if (filterNameInput.value == '') {
         updateTable();
     }
 });
@@ -134,4 +110,32 @@ function getCookies() {
         
         return prev;
     }, {});
+}
+
+function filterTable() {
+    let result = {};
+    let cookies = getCookies();
+
+    listTable.innerHTML = '';
+
+    const chunk = filterNameInput.value;
+
+    for (let cookie in cookies) {
+        if (cookie) {            
+            if (isMatching(cookie+cookies[cookie], chunk)) {
+                result[cookie] = cookies[cookie];
+            }
+        }
+    }
+    
+    for (let cookie in result) {
+        if (cookie) {
+
+            listTable.innerHTML += `<tr>
+                                    <td>${cookie}</td>
+                                    <td>${result[cookie]}</td>
+                                    <td><a href="${cookie}">удалить</a></td>
+                                </tr>`;
+        }
+    }
 }
