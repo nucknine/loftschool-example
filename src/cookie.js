@@ -77,15 +77,15 @@ updateTable();
 addButton.addEventListener('click', () => {
     // здесь можно обработать нажатие на кнопку "добавить cookie"
     document.cookie = `${addNameInput.value}=${addValueInput.value}`;
-    addNameInput.value = '';
-    addValueInput.value = '';
+    // addNameInput.value = '';
+    // addValueInput.value = '';
     updateTable();
 });
 
 listTable.addEventListener('click', (e) => {
     e.preventDefault();
-     
-    if (e.target.tagName == 'A') {        
+    
+    if (e.target.tagName == 'BUTTON') {        
         deleteCookie(e.target);
         updateTable();
     }
@@ -105,10 +105,10 @@ function updateTable() {
     for (let cookie in cookies) {
         if (cookie) {
             table += `<tr>
-                    <td>${cookie}</td>
-                    <td>${cookies[cookie]}</td>
-                    <td><a href="${cookie}">удалить</a></td>
-                </tr>`;
+                        <td>${cookie}</td>
+                        <td>${cookies[cookie]}</td>
+                        <td><button value="${cookie}">удалить</button></td>
+                    </tr>`;
         }
     }
 
@@ -116,29 +116,13 @@ function updateTable() {
 }
 
 function deleteCookie(target) {
-    let cookieName = target.getAttribute('href');
+    let cookieName = target.getAttribute('value');
     
     document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 }
 
-function isMatching(full, chunk) {
-    let cLen = chunk.length,
-        fLen = full.length,
-        result;
-
-    full = full.toUpperCase();
-    chunk = chunk.toUpperCase();
-
-    for (let i = 0; i < fLen; i++) {    
-        if (full[i] == chunk[0]) {            
-            result = full.substring(i, i + cLen); 
-            if (result == chunk) {
-                return true;
-            }
-        }    
-    }
-        
-    return false;   
+function isMatching(full, chunk) {           
+    return full.toUpperCase().includes(chunk.toUpperCase()) && chunk.length != 0;   
 }
 
 function getCookies() {
