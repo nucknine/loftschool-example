@@ -46,11 +46,6 @@ function createDiv() {
     const randomX = Math.floor(Math.random()*x);
     const randomY = Math.floor(Math.random()*y);
 
-    // console.log('h = ' + windowH + ' w = ' + windowW + 
-    // '\n' + 'randY = ' + randomY + ' randX = ' + randomX +
-    // '\n' + 'cH = ' + height + ' cW = ' + width +
-    // '\n' + 'y = ' + y + ' x = ' + x);
-
     div.setAttribute('style', 'position:absolute;');
     div.style.top = randomX + 'px';
     div.style.left = randomY + 'px';
