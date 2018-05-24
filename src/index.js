@@ -27,7 +27,7 @@ function delayPromise(seconds) {
  Пример:
    loadAndSortTowns().then(towns => console.log(towns)) // должна вывести в консоль отсортированный массив городов
  */
-
+/*
 function loadAndSortTowns() {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
@@ -58,10 +58,10 @@ function loadAndSortTowns() {
         });
     });
 }
-    
-/*
+*/   
+
 function loadAndSortTowns() {
-    fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json')
+    return fetch('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json')
         .then(response => {
             if (response.status != 200) {
                 return Promise.reject();
@@ -89,7 +89,7 @@ function loadAndSortTowns() {
         .catch(() => console.error('Error'));
     
 }
-*/
+
 
 export {
     delayPromise,
